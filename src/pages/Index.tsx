@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import OnlineCounter from '@/components/OnlineCounter';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -62,6 +63,10 @@ const Index = () => {
                 </Button>
               </div>
             </div>
+          </div>
+
+          <div className="mb-8">
+            <OnlineCounter />
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
