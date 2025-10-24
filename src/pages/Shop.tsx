@@ -310,7 +310,14 @@ const Shop = () => {
                       <span className="text-lg font-semibold">Итого:</span>
                       <span className="text-2xl font-bold text-primary">{totalPrice} ₽</span>
                     </div>
-                    <Button className="w-full" size="lg">
+                    <Button 
+                      className="w-full" 
+                      size="lg"
+                      onClick={() => {
+                        setIsCartOpen(false);
+                        navigate('/checkout', { state: { cart } });
+                      }}
+                    >
                       <Icon name="CreditCard" size={20} className="mr-2" />
                       Оформить заказ
                     </Button>
@@ -332,14 +339,15 @@ const Shop = () => {
             <p className="text-xl text-muted-foreground">Улучши свой игровой опыт</p>
           </div>
 
-          <div className="mb-8 overflow-x-auto pb-2">
-            <div className="flex gap-2 min-w-max justify-center flex-wrap">
+          <div className="mb-8">
+            <div className="flex gap-2 justify-center flex-wrap max-w-5xl mx-auto">
               {categories.map((category) => (
                 <Button
                   key={category}
                   variant={selectedCategory === category ? 'default' : 'outline'}
                   onClick={() => setSelectedCategory(category)}
-                  className="whitespace-nowrap"
+                  className="whitespace-nowrap text-sm"
+                  size="sm"
                 >
                   {category}
                 </Button>
