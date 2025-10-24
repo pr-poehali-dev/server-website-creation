@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
@@ -8,6 +9,7 @@ import OnlineCounter from '@/components/OnlineCounter';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const navigate = useNavigate();
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -22,8 +24,23 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-primary">RUST SERVER</h1>
             <div className="hidden md:flex gap-6">
+              <button
+                onClick={() => scrollToSection('home')}
+                className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary ${
+                  activeSection === 'home' ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                <Icon name="Home" size={16} />
+                Главная
+              </button>
+              <button
+                onClick={() => navigate('/shop')}
+                className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+              >
+                <Icon name="ShoppingBag" size={16} />
+                Товары
+              </button>
               {[
-                { id: 'home', label: 'Главная', icon: 'Home' },
                 { id: 'rules', label: 'Правила', icon: 'Shield' },
                 { id: 'wipes', label: 'Вайпы', icon: 'Calendar' },
                 { id: 'start', label: 'Как начать', icon: 'Rocket' },
