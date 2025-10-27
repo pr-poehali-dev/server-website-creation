@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 interface Product {
   id: number;
@@ -12,6 +13,13 @@ interface Product {
   description: string;
   icon: string;
   category: string;
+  details?: {
+    bonus?: string;
+    resources?: string;
+    components?: string;
+    weapons?: string;
+    explosives?: string;
+  };
 }
 
 interface CartItem extends Product {
@@ -41,6 +49,7 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('Все товары');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const savedCart = localStorage.getItem('rustServerCart');
@@ -60,19 +69,78 @@ const Shop = () => {
   const products: Product[] = [
     {
       id: 1,
-      name: 'VIP статус',
-      price: 299,
-      description: 'Эксклюзивные привилегии на сервере на 30 дней',
-      icon: 'Crown',
-      category: 'Привилегии'
+      name: 'Start',
+      price: 99,
+      description: 'Начальные привилегии на сервере',
+      icon: 'Zap',
+      category: 'Привилегии',
+      details: {
+        bonus: '+1 к выбору спального места',
+        resources: '5,000 дерева, 5,000 камня',
+        components: '50 металлических пружин, 30 шестерёнок',
+        weapons: 'Револьвер, Полуавтоматический пистолет',
+        explosives: '5 ракет'
+      }
     },
     {
       id: 2,
-      name: 'Premium статус',
+      name: 'Plus',
+      price: 199,
+      description: 'Улучшенные привилегии с дополнительными бонусами',
+      icon: 'TrendingUp',
+      category: 'Привилегии',
+      details: {
+        bonus: '+2 к выбору спального места',
+        resources: '10,000 дерева, 10,000 камня, 5,000 металла',
+        components: '100 металлических пружин, 60 шестерёнок, 30 металлических труб',
+        weapons: 'Автомат, Снайперская винтовка',
+        explosives: '10 ракет, 3 C4'
+      }
+    },
+    {
+      id: 3,
+      name: 'VIP',
+      price: 299,
+      description: 'VIP привилегии для опытных игроков',
+      icon: 'Crown',
+      category: 'Привилегии',
+      details: {
+        bonus: '+3 к выбору спального места',
+        resources: '20,000 дерева, 20,000 камня, 15,000 металла',
+        components: '200 металлических пружин, 120 шестерёнок, 80 металлических труб',
+        weapons: 'LR-300, Болтовка, Револьвер Python',
+        explosives: '20 ракет, 8 C4'
+      }
+    },
+    {
+      id: 4,
+      name: 'Premium',
       price: 499,
-      description: 'Максимальные привилегии и доступ ко всему контенту',
+      description: 'Премиальные привилегии с максимальными бонусами',
       icon: 'Star',
-      category: 'Привилегии'
+      category: 'Привилегии',
+      details: {
+        bonus: '+4 к выбору спального места',
+        resources: '35,000 дерева, 35,000 камня, 25,000 металла, 5,000 HQM',
+        components: '350 металлических пружин, 200 шестерёнок, 150 металлических труб',
+        weapons: 'M249, MP5, Дробовик',
+        explosives: '35 ракет, 15 C4'
+      }
+    },
+    {
+      id: 5,
+      name: 'Deluxe',
+      price: 799,
+      description: 'Максимальные привилегии для элиты сервера',
+      icon: 'Award',
+      category: 'Привилегии',
+      details: {
+        bonus: '+5 к выбору спального места',
+        resources: '50,000 дерева, 50,000 камня, 40,000 металла, 10,000 HQM',
+        components: '500 металлических пружин, 300 шестерёнок, 250 металлических труб, 100 листов металла',
+        weapons: 'M249, LR-300, Снайперская винтовка, Дробовик боевой',
+        explosives: '50 ракет, 25 C4, 10 торпед'
+      }
     },
     {
       id: 3,
@@ -223,6 +291,16 @@ const Shop = () => {
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  const handleProductClick = (product: Product) => {
+    if (product.category === 'Привилегии' && product.details) {
+      setSelectedProduct(product);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -265,9 +343,17 @@ const Shop = () => {
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Корзина</h2>
-                <Button variant="ghost" size="icon" onClick={() => setIsCartOpen(false)}>
-                  <Icon name="X" size={20} />
-                </Button>
+                <div className="flex gap-2">
+                  {cart.length > 0 && (
+                    <Button variant="outline" size="sm" onClick={clearCart}>
+                      <Icon name="Trash2" size={16} className="mr-2" />
+                      Очистить
+                    </Button>
+                  )}
+                  <Button variant="ghost" size="icon" onClick={() => setIsCartOpen(false)}>
+                    <Icon name="X" size={20} />
+                  </Button>
+                </div>
               </div>
 
               {cart.length === 0 ? (
@@ -381,6 +467,7 @@ const Shop = () => {
                 key={product.id}
                 className="p-6 bg-card border-border hover-scale cursor-pointer transition-all hover:border-primary animate-fade-in"
                 style={{ animationDelay: `${index * 0.05}s` }}
+                onClick={() => handleProductClick(product)}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center">
@@ -401,7 +488,13 @@ const Shop = () => {
                     <span className="text-3xl font-bold text-primary">{product.price}</span>
                     <span className="text-muted-foreground ml-1">₽</span>
                   </div>
-                  <Button className="hover-scale" onClick={() => addToCart(product)}>
+                  <Button 
+                    className="hover-scale" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product);
+                    }}
+                  >
                     <Icon name="ShoppingCart" size={16} className="mr-2" />
                     В корзину
                   </Button>
@@ -418,6 +511,88 @@ const Shop = () => {
           )}
         </div>
       </div>
+
+      <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                <Icon name={selectedProduct?.icon as any} size={24} className="text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold">{selectedProduct?.name}</div>
+                <div className="text-sm text-muted-foreground font-normal mt-1">
+                  {selectedProduct?.description}
+                </div>
+              </div>
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Детали привилегии
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedProduct?.details && (
+            <div className="space-y-6 mt-4">
+              <div>
+                <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                  <Icon name="Award" size={20} className="text-primary" />
+                  Бонусы
+                </h3>
+                <p className="text-muted-foreground pl-7">{selectedProduct.details.bonus}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                  <Icon name="Box" size={20} className="text-primary" />
+                  Кит ресурсов
+                </h3>
+                <p className="text-muted-foreground pl-7">{selectedProduct.details.resources}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                  <Icon name="Cog" size={20} className="text-primary" />
+                  Кит компонентов
+                </h3>
+                <p className="text-muted-foreground pl-7">{selectedProduct.details.components}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                  <Icon name="Crosshair" size={20} className="text-primary" />
+                  Кит оружия
+                </h3>
+                <p className="text-muted-foreground pl-7">{selectedProduct.details.weapons}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                  <Icon name="Bomb" size={20} className="text-primary" />
+                  Кит взрывчатки
+                </h3>
+                <p className="text-muted-foreground pl-7">{selectedProduct.details.explosives}</p>
+              </div>
+
+              <div className="pt-4 border-t border-border flex items-center justify-between">
+                <div>
+                  <span className="text-3xl font-bold text-primary">{selectedProduct.price}</span>
+                  <span className="text-muted-foreground ml-1">₽</span>
+                </div>
+                <Button 
+                  size="lg"
+                  onClick={() => {
+                    addToCart(selectedProduct);
+                    setSelectedProduct(null);
+                  }}
+                >
+                  <Icon name="ShoppingCart" size={20} className="mr-2" />
+                  Добавить в корзину
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
