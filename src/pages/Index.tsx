@@ -36,7 +36,7 @@ const Index = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 py-4 max-w-7xl">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-primary">RUST SERVER</h1>
+            <h1 className="text-2xl font-bold text-primary">Rustica</h1>
             
             <div className="hidden lg:flex items-center gap-4">
               <DropdownMenu open={isHomeMenuOpen} onOpenChange={setIsHomeMenuOpen}>
