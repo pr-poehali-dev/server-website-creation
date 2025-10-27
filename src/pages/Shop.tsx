@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
@@ -41,6 +41,21 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('Все товары');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem('rustServerCart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error('Failed to load cart from localStorage', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('rustServerCart', JSON.stringify(cart));
+  }, [cart]);
 
   const products: Product[] = [
     {
@@ -314,8 +329,13 @@ const Shop = () => {
                       className="w-full" 
                       size="lg"
                       onClick={() => {
-                        setIsCartOpen(false);
-                        navigate('/checkout', { state: { cart } });
+                        const isAuthenticated = localStorage.getItem('steamAuthenticated');
+                        if (isAuthenticated === 'true') {
+                          setIsCartOpen(false);
+                          navigate('/checkout', { state: { cart } });
+                        } else {
+                          navigate('/login');
+                        }
                       }}
                     >
                       <Icon name="CreditCard" size={20} className="mr-2" />

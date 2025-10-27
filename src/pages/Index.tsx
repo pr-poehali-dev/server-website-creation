@@ -11,10 +11,17 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHomeMenuOpen, setIsHomeMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const scrollToSection = (sectionId: string) => {
@@ -28,19 +35,51 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-start gap-8">
             <h1 className="text-2xl font-bold text-primary">RUST SERVER</h1>
             
-            <div className="hidden lg:flex items-center gap-4">
-              <button
-                onClick={() => scrollToSection('home')}
-                className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary ${
-                  activeSection === 'home' ? 'text-primary' : 'text-muted-foreground'
-                }`}
-              >
-                <Icon name="Home" size={16} />
-                Главная
-              </button>
+            <div className="hidden lg:flex items-center gap-4 flex-1">
+              <DropdownMenu open={isHomeMenuOpen} onOpenChange={setIsHomeMenuOpen}>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+                  >
+                    <Icon name="Home" size={16} />
+                    Главная
+                    <Icon name="ChevronDown" size={14} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56">
+                  <DropdownMenuItem onClick={() => {
+                    scrollToSection('rules');
+                    setIsHomeMenuOpen(false);
+                  }}>
+                    <Icon name="Shield" size={16} className="mr-2" />
+                    Правила сервера
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    scrollToSection('wipes');
+                    setIsHomeMenuOpen(false);
+                  }}>
+                    <Icon name="Calendar" size={16} className="mr-2" />
+                    Расписание вайпов
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    scrollToSection('start');
+                    setIsHomeMenuOpen(false);
+                  }}>
+                    <Icon name="Rocket" size={16} className="mr-2" />
+                    Как начать играть
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    scrollToSection('contacts');
+                    setIsHomeMenuOpen(false);
+                  }}>
+                    <Icon name="MessageCircle" size={16} className="mr-2" />
+                    Контакты
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <button
                 onClick={() => navigate('/shop')}
                 className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
@@ -52,7 +91,7 @@ const Index = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => navigate('/login')}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 ml-auto"
               >
                 <svg className="w-4 h-4" viewBox="0 0 256 259" fill="currentColor">
                   <path d="M127.779 0C62.824 0 9.46 48.896.637 111.005l68.45 28.302c5.791-3.948 12.795-6.256 20.326-6.256 1.235 0 2.446.067 3.642.19l30.465-44.142v-.618c0-27.798 22.566-50.364 50.364-50.364 27.798 0 50.364 22.566 50.364 50.364 0 27.797-22.566 50.363-50.364 50.363h-1.16l-43.388 30.992c.123 1.091.19 2.2.19 3.323 0 20.052-16.267 36.319-36.318 36.319-17.612 0-32.351-12.566-35.714-29.215L1.2 157.423C13.775 217.06 66.208 262 127.779 262c70.319 0 127.363-57.044 127.363-127.363C255.142 64.318 198.098 7.274 127.779 0zm-80.43 184.928l-15.91-6.577c2.811 5.838 7.686 10.706 13.933 13.448 13.495 5.925 29.263-.803 35.188-14.298 2.87-6.54 2.87-13.742 0-20.283-2.869-6.54-8.328-11.547-14.868-14.417-6.517-2.846-13.49-2.8-19.653-.444l16.458 6.81c9.952 4.366 14.437 16.033 10.07 26.007-4.367 9.952-16.033 14.437-26.007 10.07l-.211-.316zm153.095-96.454c0-18.531-15.042-33.573-33.573-33.573-18.531 0-33.573 15.042-33.573 33.573 0 18.531 15.042 33.573 33.573 33.573 18.531 0 33.573-15.042 33.573-33.573zm-58.806 0c0-13.93 11.303-25.233 25.233-25.233 13.93 0 25.233 11.303 25.233 25.233 0 13.93-11.303 25.233-25.233 25.233-13.93 0-25.233-11.303-25.233-25.233z"/>
@@ -61,7 +100,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="lg:hidden flex items-center gap-2">
+            <div className="lg:hidden flex items-center gap-2 ml-auto">
               <Button
                 variant="outline"
                 size="sm"
