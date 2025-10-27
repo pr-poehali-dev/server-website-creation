@@ -34,11 +34,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-start gap-8">
+        <div className="container mx-auto px-4 py-4 max-w-7xl">
+          <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-primary">RUST SERVER</h1>
             
-            <div className="hidden lg:flex items-center gap-4 flex-1">
+            <div className="hidden lg:flex items-center gap-4">
               <DropdownMenu open={isHomeMenuOpen} onOpenChange={setIsHomeMenuOpen}>
                 <DropdownMenuTrigger asChild>
                   <button
@@ -91,7 +91,7 @@ const Index = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => navigate('/login')}
-                className="flex items-center gap-2 ml-auto"
+                className="flex items-center gap-2"
               >
                 <svg className="w-4 h-4" viewBox="0 0 256 259" fill="currentColor">
                   <path d="M127.779 0C62.824 0 9.46 48.896.637 111.005l68.45 28.302c5.791-3.948 12.795-6.256 20.326-6.256 1.235 0 2.446.067 3.642.19l30.465-44.142v-.618c0-27.798 22.566-50.364 50.364-50.364 27.798 0 50.364 22.566 50.364 50.364 0 27.797-22.566 50.363-50.364 50.363h-1.16l-43.388 30.992c.123 1.091.19 2.2.19 3.323 0 20.052-16.267 36.319-36.318 36.319-17.612 0-32.351-12.566-35.714-29.215L1.2 157.423C13.775 217.06 66.208 262 127.779 262c70.319 0 127.363-57.044 127.363-127.363C255.142 64.318 198.098 7.274 127.779 0zm-80.43 184.928l-15.91-6.577c2.811 5.838 7.686 10.706 13.933 13.448 13.495 5.925 29.263-.803 35.188-14.298 2.87-6.54 2.87-13.742 0-20.283-2.869-6.54-8.328-11.547-14.868-14.417-6.517-2.846-13.49-2.8-19.653-.444l16.458 6.81c9.952 4.366 14.437 16.033 10.07 26.007-4.367 9.952-16.033 14.437-26.007 10.07l-.211-.316zm153.095-96.454c0-18.531-15.042-33.573-33.573-33.573-18.531 0-33.573 15.042-33.573 33.573 0 18.531 15.042 33.573 33.573 33.573 18.531 0 33.573-15.042 33.573-33.573zm-58.806 0c0-13.93 11.303-25.233 25.233-25.233 13.93 0 25.233 11.303 25.233 25.233 0 13.93-11.303 25.233-25.233 25.233-13.93 0-25.233-11.303-25.233-25.233z"/>
@@ -100,7 +100,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="lg:hidden flex items-center gap-2 ml-auto">
+            <div className="lg:hidden flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -164,7 +164,7 @@ const Index = () => {
       </nav>
 
       <section id="home" className="pt-24 pb-16 px-4">
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-7xl">
           <div className="relative h-[500px] rounded-2xl overflow-hidden mb-12 animate-fade-in">
             <img 
               src="https://cdn.poehali.dev/projects/21c8730d-c1be-4621-b2f4-39fac5e27af6/files/f4c1a06a-75bc-4e99-b76f-5c8958bf8868.jpg" 
@@ -210,7 +210,7 @@ const Index = () => {
       <Separator />
 
       <section id="rules" className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-7xl">
           <div className="flex items-center gap-3 mb-8">
             <Icon name="Shield" size={32} className="text-primary" />
             <h2 className="text-4xl font-bold">Правила сервера</h2>
@@ -247,7 +247,7 @@ const Index = () => {
       <Separator />
 
       <section id="wipes" className="py-16 px-4 bg-secondary/20">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-7xl">
           <div className="flex items-center gap-3 mb-8">
             <Icon name="Calendar" size={32} className="text-primary" />
             <h2 className="text-4xl font-bold">Расписание вайпов</h2>
@@ -276,7 +276,7 @@ const Index = () => {
       <Separator />
 
       <section id="start" className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-7xl">
           <div className="flex items-center gap-3 mb-8">
             <Icon name="Rocket" size={32} className="text-primary" />
             <h2 className="text-4xl font-bold">Как начать играть</h2>
@@ -316,7 +316,7 @@ const Index = () => {
       <Separator />
 
       <section id="contacts" className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-7xl">
           <div className="flex items-center gap-3 mb-8">
             <Icon name="MessageCircle" size={32} className="text-primary" />
             <h2 className="text-4xl font-bold">Контакты</h2>
@@ -343,7 +343,7 @@ const Index = () => {
       </section>
 
       <footer className="py-8 px-4 border-t border-border">
-        <div className="container mx-auto text-center text-muted-foreground">
+        <div className="container mx-auto max-w-7xl text-center text-muted-foreground">
           <p>© 2024 RUST SERVER. Все права защищены.</p>
         </div>
       </footer>
