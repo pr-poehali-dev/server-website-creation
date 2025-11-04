@@ -46,7 +46,7 @@ const Home = () => {
             className="group cursor-pointer overflow-hidden border-2 hover:border-primary transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
           >
             <div className="relative h-64 bg-gradient-to-br from-orange-900/30 to-red-900/30 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800')] bg-cover bg-center opacity-20 group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800')] bg-cover bg-center opacity-30 group-hover:scale-110 transition-transform duration-500" />
               <div className="relative z-10 text-center">
                 <div className="mb-4 flex justify-center">
                   <div className="w-20 h-20 rounded-full bg-orange-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -73,7 +73,7 @@ const Home = () => {
             className="group cursor-pointer overflow-hidden border-2 hover:border-primary transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
           >
             <div className="relative h-64 bg-gradient-to-br from-green-900/30 to-emerald-900/30 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=800')] bg-cover bg-center opacity-20 group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800')] bg-cover bg-center opacity-30 group-hover:scale-110 transition-transform duration-500" />
               <div className="relative z-10 text-center">
                 <div className="mb-4 flex justify-center">
                   <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

@@ -8,9 +8,11 @@ import Home from "./pages/Home";
 import Rustica from "./pages/Rustica";
 import Dayzica from "./pages/Dayzica";
 import Shop from "./pages/Shop";
+import DayZShop from "./pages/DayZShop";
 import Checkout from "./pages/Checkout";
 import SteamLogin from "./pages/SteamLogin";
 import Servers from "./pages/Servers";
+import DayZServers from "./pages/DayZServers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,11 +28,11 @@ const App = () => (
           <Route path="/rustica" element={<Rustica />} />
           <Route path="/dayzica" element={<Dayzica />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/dayz-shop" element={<Shop />} />
+          <Route path="/dayz-shop" element={<DayZShop />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<SteamLogin />} />
           <Route path="/servers" element={<Servers />} />
-          <Route path="/dayz-servers" element={<Servers />} />
+          <Route path="/dayz-servers" element={<DayZServers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
