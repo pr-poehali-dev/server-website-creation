@@ -46,7 +46,7 @@ const Servers = () => {
               >
                 <Icon name="ArrowLeft" size={20} />
               </Button>
-              <h1 className="text-2xl font-bold text-primary">Наши серверы</h1>
+              <h1 className="text-2xl font-bold text-primary">Rustica Servers</h1>
             </div>
           </div>
         </div>
