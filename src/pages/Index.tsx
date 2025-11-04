@@ -90,6 +90,15 @@ const Index = () => {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => navigate('/servers')}
+                className="flex items-center gap-2"
+              >
+                <Icon name="Server" size={16} />
+                Серверы
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => navigate('/login')}
                 className="flex items-center gap-2"
               >
@@ -101,6 +110,13 @@ const Index = () => {
             </div>
 
             <div className="lg:hidden flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate('/servers')}
+              >
+                <Icon name="Server" size={16} />
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
@@ -136,6 +152,16 @@ const Index = () => {
                     >
                       <Icon name="ShoppingBag" size={20} />
                       Товары
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        navigate('/servers');
+                      }}
+                      className="flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary text-muted-foreground p-3 rounded-lg"
+                    >
+                      <Icon name="Server" size={20} />
+                      Серверы
                     </button>
                     <Separator />
                     {[
