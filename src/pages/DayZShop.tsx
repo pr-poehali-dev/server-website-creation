@@ -1,15 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
 import { dayzShopItems, dayzShopCategories, DayZShopItem } from '@/data/dayzShopItems';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+
+interface CartItem extends DayZShopItem {
+  quantity: number;
+}
 
 const DayZShop = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('Все');
-  const [cart, setCart] = useState<Map<number, number>>(new Map());
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem('dayzServerCart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error('Failed to load cart from localStorage', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('dayzServerCart', JSON.stringify(cart));
+  }, [cart]);
 
   const categories = ['Все', ...dayzShopCategories];
 
@@ -17,50 +43,54 @@ const DayZShop = () => {
     ? dayzShopItems 
     : dayzShopItems.filter(item => item.category === selectedCategory);
 
-  const addToCart = (item: DayZShopItem) => {
-    setCart(prev => {
-      const newCart = new Map(prev);
-      newCart.set(item.id, (newCart.get(item.id) || 0) + 1);
-      return newCart;
+  const addToCart = (product: DayZShopItem) => {
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (itemId: number) => {
-    setCart(prev => {
-      const newCart = new Map(prev);
-      const currentQty = newCart.get(itemId) || 0;
-      if (currentQty > 1) {
-        newCart.set(itemId, currentQty - 1);
-      } else {
-        newCart.delete(itemId);
-      }
-      return newCart;
-    });
+  const removeFromCart = (productId: number) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+  };
+
+  const updateQuantity = (productId: number, change: number) => {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === productId
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item
+      )
+    );
+  };
+
+  const clearCart = () => {
+    setCart([]);
   };
 
   const getCartTotal = () => {
-    return Array.from(cart.entries()).reduce((total, [itemId, qty]) => {
-      const item = dayzShopItems.find(i => i.id === itemId);
-      return total + (item?.price || 0) * qty;
-    }, 0);
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
   const getTotalItems = () => {
-    return Array.from(cart.values()).reduce((sum, qty) => sum + qty, 0);
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
   };
 
   const handleCheckout = () => {
-    const cartItems = Array.from(cart.entries()).map(([itemId, quantity]) => {
-      const item = dayzShopItems.find(i => i.id === itemId)!;
-      return {
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        icon: item.icon,
-        quantity
-      };
-    });
-    navigate('/checkout', { state: { cart: cartItems } });
+    const isAuthenticated = localStorage.getItem('steamAuthenticated');
+    if (isAuthenticated === 'true') {
+      setIsCartOpen(false);
+      navigate('/checkout', { state: { cart } });
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -71,6 +101,19 @@ const DayZShop = () => {
             <h1 className="text-2xl font-bold text-primary">Dayzica Store</h1>
             <div className="flex items-center gap-4">
               <Button
+                variant="outline"
+                onClick={() => setIsCartOpen(true)}
+                className="relative"
+              >
+                <Icon name="ShoppingCart" size={16} className="mr-2" />
+                Корзина
+                {getTotalItems() > 0 && (
+                  <Badge className="absolute -top-2 -right-2 h-6 w-6 flex items-center justify-center p-0 bg-primary text-primary-foreground">
+                    {getTotalItems()}
+                  </Badge>
+                )}
+              </Button>
+              <Button
                 variant="ghost"
                 onClick={() => navigate('/dayzica')}
                 className="flex items-center gap-2"
@@ -78,15 +121,6 @@ const DayZShop = () => {
                 <Icon name="ArrowLeft" size={16} />
                 Назад
               </Button>
-              {getTotalItems() > 0 && (
-                <Button onClick={handleCheckout} className="gap-2 relative">
-                  <Icon name="ShoppingCart" size={16} />
-                  Корзина
-                  <Badge variant="destructive" className="ml-1">
-                    {getTotalItems()}
-                  </Badge>
-                </Button>
-              )}
             </div>
           </div>
         </div>
@@ -116,9 +150,86 @@ const DayZShop = () => {
             </div>
           </div>
 
+          <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+            <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="flex items-center justify-between">
+                  <span>Корзина</span>
+                  {cart.length > 0 && (
+                    <Button variant="outline" size="sm" onClick={clearCart}>
+                      <Icon name="Trash2" size={16} className="mr-2" />
+                      Очистить
+                    </Button>
+                  )}
+                </SheetTitle>
+              </SheetHeader>
+              
+              <div className="mt-6 space-y-4">
+                {cart.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Icon name="ShoppingCart" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground">Корзина пуста</p>
+                  </div>
+                ) : (
+                  <>
+                    {cart.map(item => (
+                      <Card key={item.id} className="p-4">
+                        <div className="flex gap-3">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Icon name={item.icon as any} size={20} className="text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-sm mb-1">{item.name}</h4>
+                            <p className="text-sm text-primary font-bold">{item.price}₽</p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeFromCart(item.id)}
+                          >
+                            <Icon name="X" size={16} />
+                          </Button>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => updateQuantity(item.id, -1)}
+                          >
+                            <Icon name="Minus" size={14} />
+                          </Button>
+                          <span className="flex-1 text-center font-semibold">{item.quantity}</span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => updateQuantity(item.id, 1)}
+                          >
+                            <Icon name="Plus" size={14} />
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                    
+                    <div className="border-t pt-4 space-y-4">
+                      <div className="flex items-center justify-between text-lg font-bold">
+                        <span>Итого:</span>
+                        <span className="text-primary">{getCartTotal()}₽</span>
+                      </div>
+                      <Button onClick={handleCheckout} className="w-full gap-2" size="lg">
+                        <Icon name="CreditCard" size={20} />
+                        Оформить заказ
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {filteredItems.map(item => {
-              const inCart = cart.get(item.id) || 0;
+              const cartItem = cart.find(c => c.id === item.id);
+              const inCart = cartItem?.quantity || 0;
               
               return (
                 <Card 
@@ -150,56 +261,17 @@ const DayZShop = () => {
                     </Badge>
                   </div>
 
-                  <div className="flex gap-2">
-                    {inCart > 0 ? (
-                      <div className="flex items-center gap-2 w-full">
-                        <Button 
-                          variant="outline" 
-                          size="icon"
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          <Icon name="Minus" size={16} />
-                        </Button>
-                        <div className="flex-1 text-center font-bold">
-                          {inCart} шт
-                        </div>
-                        <Button 
-                          variant="outline" 
-                          size="icon"
-                          onClick={() => addToCart(item)}
-                        >
-                          <Icon name="Plus" size={16} />
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button 
-                        onClick={() => addToCart(item)} 
-                        className="w-full gap-2"
-                      >
-                        <Icon name="ShoppingCart" size={16} />
-                        В корзину
-                      </Button>
-                    )}
-                  </div>
+                  <Button 
+                    onClick={() => addToCart(item)} 
+                    className="w-full gap-2"
+                  >
+                    <Icon name="ShoppingCart" size={16} />
+                    В корзину
+                  </Button>
                 </Card>
               );
             })}
           </div>
-
-          {getTotalItems() > 0 && (
-            <Card className="fixed bottom-6 right-6 p-6 shadow-2xl max-w-sm animate-fade-in">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold">Итого:</span>
-                  <span className="text-2xl font-bold text-primary">{getCartTotal()}₽</span>
-                </div>
-                <Button onClick={handleCheckout} className="w-full gap-2" size="lg">
-                  <Icon name="CreditCard" size={20} />
-                  Оформить заказ
-                </Button>
-              </div>
-            </Card>
-          )}
 
           <Card className="p-6 bg-muted/30 mt-8">
             <div className="flex items-start gap-3">
