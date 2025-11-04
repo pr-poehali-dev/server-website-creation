@@ -225,15 +225,22 @@ const Dayzica = () => {
       </nav>
 
       <div className="pt-20">
-        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-background via-background to-muted/30">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=1920&h=1080')] opacity-5 bg-cover bg-center" />
+        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1484291150605-0860ed671f04?w=1920&h=1080&q=80)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background" />
+          
           <div className="container mx-auto px-4 relative z-10 max-w-6xl">
             <div className="text-center space-y-8">
               <div className="space-y-4">
-                <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-green-500 via-emerald-500 to-green-500 bg-clip-text text-transparent animate-pulse">
+                <h1 className="text-6xl md:text-8xl font-bold text-white drop-shadow-2xl">
                   DAYZICA
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto drop-shadow-lg">
                   Лучшие DayZ серверы с кастомными локациями и уникальными событиями
                 </p>
               </div>
@@ -260,11 +267,11 @@ const Dayzica = () => {
                   <Icon name="Server" size={20} />
                   Список серверов
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2" onClick={() => scrollToSection('start')}>
+                <Button size="lg" variant="outline" className="gap-2 bg-white/10 backdrop-blur hover:bg-white/20" onClick={() => scrollToSection('start')}>
                   <Icon name="Rocket" size={20} />
                   Начать играть
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2" onClick={() => navigate('/dayz-shop')}>
+                <Button size="lg" variant="outline" className="gap-2 bg-white/10 backdrop-blur hover:bg-white/20" onClick={() => navigate('/dayz-shop')}>
                   <Icon name="ShoppingBag" size={20} />
                   Магазин
                 </Button>
