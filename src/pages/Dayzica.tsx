@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import OnlineCounter from '@/components/OnlineCounter';
 import {
   Sheet,
   SheetContent,
@@ -246,13 +247,7 @@ const Dayzica = () => {
               </div>
 
               <div className="flex flex-wrap gap-4 justify-center items-center">
-                <Card className="inline-block px-6 py-3 bg-card/50 backdrop-blur">
-                  <div className="flex items-center gap-2">
-                    <Icon name="Users" className="text-primary" size={20} />
-                    <span className="text-muted-foreground">Онлайн:</span>
-                    <span className="font-bold text-xl text-primary">156</span>
-                  </div>
-                </Card>
+                <OnlineCounter />
                 <Card className="inline-block px-6 py-3 bg-card/50 backdrop-blur">
                   <div className="flex items-center gap-2">
                     <Icon name="Server" className="text-primary" size={20} />
