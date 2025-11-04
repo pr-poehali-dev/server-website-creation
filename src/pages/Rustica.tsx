@@ -92,7 +92,10 @@ const Rustica = () => {
               <button
                 onClick={() => navigate('/shop')}
                 className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
-              >Магазин</button>
+              >
+                <Icon name="ShoppingBag" size={16} />
+                Товары
+              </button>
               <Button
                 variant="outline"
                 size="sm"
