@@ -94,7 +94,7 @@ const Rustica = () => {
                 className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
               >
                 <Icon name="ShoppingBag" size={16} />
-                Товары
+                Магазин
               </button>
               <Button
                 variant="outline"
@@ -160,7 +160,7 @@ const Rustica = () => {
                       className="flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary text-muted-foreground p-3 rounded-lg"
                     >
                       <Icon name="ShoppingBag" size={20} />
-                      Товары
+                      Магазин
                     </button>
                     <button
                       onClick={() => {
@@ -433,17 +433,13 @@ const Rustica = () => {
                 Присоединяйтесь к нашему сообществу и будьте в курсе всех новостей!
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Button size="lg" className="gap-2">
+                <Button size="lg" variant="outline" className="gap-2">
                   <Icon name="MessageCircle" size={20} />
                   Discord
                 </Button>
                 <Button size="lg" variant="outline" className="gap-2">
                   <Icon name="Send" size={20} />
                   Telegram
-                </Button>
-                <Button size="lg" variant="outline" className="gap-2">
-                  <Icon name="Youtube" size={20} />
-                  YouTube
                 </Button>
               </div>
             </Card>

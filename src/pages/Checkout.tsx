@@ -57,7 +57,7 @@ const Checkout = () => {
         <div className="text-center">
           <Icon name="ShoppingCart" size={64} className="text-muted-foreground mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">Корзина пуста</h2>
-          <p className="text-muted-foreground mb-6">Добавьте товары для оформления заказа</p>
+          <p className="text-muted-foreground mb-6">Добавьте покупки для оформления заказа</p>
           <Button onClick={() => navigate('/shop')}>
             <Icon name="ArrowLeft" className="mr-2" size={16} />
             Вернуться в магазин
@@ -92,7 +92,7 @@ const Checkout = () => {
               <Icon name="CreditCard" size={40} className="text-primary" />
               <h2 className="text-4xl font-bold">Оформление заказа</h2>
             </div>
-            <p className="text-muted-foreground">Заполните данные для получения товаров</p>
+            <p className="text-muted-foreground">Заполните данные для получения покупок</p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">

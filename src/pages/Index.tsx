@@ -85,7 +85,7 @@ const Index = () => {
                 className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
               >
                 <Icon name="ShoppingBag" size={16} />
-                Товары
+                Магазин
               </button>
               <Button
                 variant="outline"
@@ -151,7 +151,7 @@ const Index = () => {
                       className="flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary text-muted-foreground p-3 rounded-lg"
                     >
                       <Icon name="ShoppingBag" size={20} />
-                      Товары
+                      Магазин
                     </button>
                     <button
                       onClick={() => {

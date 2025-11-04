@@ -66,7 +66,7 @@ const SteamLogin = () => {
               <Icon name="Package" size={20} className="text-primary mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium text-sm">Автоматическая доставка</p>
-                <p className="text-xs text-muted-foreground">Товары сразу на ваш аккаунт</p>
+                <p className="text-xs text-muted-foreground">Покупки сразу на ваш аккаунт</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/20">
